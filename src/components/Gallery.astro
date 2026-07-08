@@ -1,0 +1,19 @@
+---
+import type { Photo } from '../types/photo';
+import styles from './Gallery.module.css';
+import GalleryItem from './GalleryItem.astro';
+
+interface Props {
+  photos: Photo[];
+}
+
+const { photos } = Astro.props;
+---
+
+<main class={styles.gallery}>
+  <div class={styles.masonry}>
+    {photos.map((photo, index) => (
+      <GalleryItem photo={photo} index={index} />
+    ))}
+  </div>
+</main>
