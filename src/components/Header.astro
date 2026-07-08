@@ -1,0 +1,30 @@
+---
+import styles from './Header.module.css';
+
+interface Props {
+  totalPhotos: number;
+}
+
+const { totalPhotos } = Astro.props;
+---
+
+<header class={styles.header}>
+  <div class={styles.brand}>
+    <div class={styles.logo}>
+      <span class={styles.siteName}>pics.ignaciofigueroa.dev</span>
+    </div>
+    <p class={styles.tagline}>A curated collection of moody, cinematic photography</p>
+  </div>
+
+  <div class={styles.stats}>
+    <div class={styles.stat}>
+      <span class={styles.statValue}>{totalPhotos}</span>
+      <span class={styles.statLabel}>Photos</span>
+    </div>
+    <div class={styles.divider}></div>
+    <div class={styles.stat}>
+      <span class={styles.statValue}>2026</span>
+      <span class={styles.statLabel}>Year</span>
+    </div>
+  </div>
+</header>

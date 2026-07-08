@@ -1,0 +1,85 @@
+.header {
+  padding: 1.25rem 1rem 0.75rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+  backdrop-filter: blur(5px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(10, 10, 10, 0.8);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.siteName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+
+.tagline {
+  font-size: 0.72rem;
+  color: var(--muted-foreground);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.stats {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.05rem;
+}
+
+.statValue {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.62rem;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.divider {
+  width: 1px;
+  height: 30px;
+  background-color: var(--border);
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 1rem 0.75rem 0.6rem;
+  }
+
+  .stats {
+    display: none;
+  }
+}
