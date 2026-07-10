@@ -10,10 +10,30 @@ interface Props {
 const { photos } = Astro.props;
 ---
 
-<main class={styles.gallery}>
+<main class={styles.gallery} id="gallery-root">
   <div class={styles.masonry}>
     {photos.map((photo, index) => (
       <GalleryItem photo={photo} index={index} />
     ))}
   </div>
 </main>
+
+<script>
+  // On the very first load, do nothing — let the animation play.
+  // After that, mark it done so back-navigation skips the animation.
+
+  // astro:before-swap fires before the new DOM is swapped in,
+  // so we can set data-animated on the incoming document before paint.
+  document.addEventListener('astro:before-swap', (e) => {
+    if (sessionStorage.getItem('gallery-animated')) {
+      const incoming = e.newDocument.getElementById('gallery-root');
+      if (incoming) incoming.setAttribute('data-animated', '');
+    }
+  });
+
+  // astro:page-load fires after every navigation (including first hard load).
+  // We mark it after the first page-load so back-nav skips the animation.
+  document.addEventListener('astro:page-load', () => {
+    sessionStorage.setItem('gallery-animated', '1');
+  });
+</script>
