@@ -38,8 +38,4 @@
   }
 }
 
-@media (max-width: 480px) {
-  .masonry {
-    columns: 1;
-  }
-}
+
