@@ -4,6 +4,16 @@ import Gallery from '../components/Gallery.astro';
 import Header from '../components/Header.astro';
 import { photos } from '../data/photos';
 import '../styles/global.css';
+
+const activeCategory = Astro.url.searchParams.get('category') ?? 'all';
+
+
+const filtered = activeCategory === 'all'
+  ? [...photos]
+  : photos.filter(p => p.category.toLowerCase() === activeCategory.toLowerCase());
+
+const shuffled = filtered.sort(() => Math.random() - 0.5);
+const categories = [...new Set(photos.map(p => p.category))].sort();
 ---
 
 <html lang="en">
@@ -21,7 +31,7 @@ import '../styles/global.css';
     <ClientRouter />
   </head>
   <body>
-    <Header totalPhotos={photos.length} />
-    <Gallery photos={photos} />
+    <Header totalPhotos={filtered.length} />
+    <Gallery photos={shuffled} categories={categories} activeCategory={activeCategory} />
   </body>
 </html>

@@ -5,10 +5,36 @@ import GalleryItem from './GalleryItem.astro';
 
 interface Props {
   photos: Photo[];
+  categories?: string[];
+  activeCategory?: string;
 }
 
-const { photos } = Astro.props;
+const { photos, categories = [], activeCategory = 'all' } = Astro.props;
 ---
+
+{categories.length > 0 && (
+  <nav class={styles.filterBar} aria-label="Filter by category">
+    <a
+      href="/"
+      class={`${styles.pill} ${activeCategory === 'all' ? styles.active : ''}`}
+      aria-current={activeCategory === 'all' ? 'page' : undefined}
+    >
+      All
+    </a>
+    {categories.map(cat => {
+      const isActive = cat.toLowerCase() === activeCategory.toLowerCase();
+      return (
+        <a
+          href={`/?category=${encodeURIComponent(cat)}`}
+          class={`${styles.pill} ${isActive ? styles.active : ''}`}
+          aria-current={isActive ? 'page' : undefined}
+        >
+          {cat}
+        </a>
+      );
+    })}
+  </nav>
+)}
 
 <main class={styles.gallery} id="gallery-root">
   <div class={styles.masonry}>
@@ -19,20 +45,14 @@ const { photos } = Astro.props;
 </main>
 
 <script>
-  // On the very first load, do nothing — let the animation play.
-  // After that, mark it done so back-navigation skips the animation.
-
-  // astro:before-swap fires before the new DOM is swapped in,
-  // so we can set data-animated on the incoming document before paint.
+  // One-time entrance animation — skip on back/filter navigation
   document.addEventListener('astro:before-swap', (e) => {
     if (sessionStorage.getItem('gallery-animated')) {
-      const incoming = e.newDocument.getElementById('gallery-root');
+      const incoming = (e as any).newDocument.getElementById('gallery-root');
       if (incoming) incoming.setAttribute('data-animated', '');
     }
   });
 
-  // astro:page-load fires after every navigation (including first hard load).
-  // We mark it after the first page-load so back-nav skips the animation.
   document.addEventListener('astro:page-load', () => {
     sessionStorage.setItem('gallery-animated', '1');
   });
