@@ -2,17 +2,18 @@
 import { ClientRouter } from "astro:transitions";
 import Gallery from '../components/Gallery.astro';
 import Header from '../components/Header.astro';
+import Dock from '../components/Dock.astro';
 import { photos } from '../data/photos';
 import '../styles/global.css';
 
 const activeCategory = Astro.url.searchParams.get('category') ?? 'all';
-
 
 const filtered = activeCategory === 'all'
   ? [...photos]
   : photos.filter(p => p.category.toLowerCase() === activeCategory.toLowerCase());
 
 const shuffled = filtered.sort(() => Math.random() - 0.5);
+
 const categories = [...new Set(photos.map(p => p.category))].sort();
 ---
 
@@ -32,6 +33,7 @@ const categories = [...new Set(photos.map(p => p.category))].sort();
   </head>
   <body>
     <Header totalPhotos={filtered.length} />
-    <Gallery photos={shuffled} categories={categories} activeCategory={activeCategory} />
+    <Gallery photos={shuffled} />
+    <Dock categories={categories} activeCategory={activeCategory} />
   </body>
 </html>
