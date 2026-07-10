@@ -9,6 +9,23 @@
   column-gap: 0.6rem;
 }
 
+.masonry:has(a:hover) a:not(:hover) {
+  filter: blur(7px);
+  opacity: 0.45;
+  transform: scale(0.98);
+  transition:
+    filter 0.35s ease,
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+.masonry a {
+  transition:
+    filter 0.35s ease,
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
 @media (max-width: 1100px) {
   .masonry {
     columns: 3;
