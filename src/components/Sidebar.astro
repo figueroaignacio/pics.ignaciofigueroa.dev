@@ -29,11 +29,11 @@ const iconMap: Record<string, any> = {
 };
 
 const items = [
-  { label: 'All', href: '/', key: 'all' },
+  { label: 'all', href: '/', key: 'all' },
   ...categories.map(cat => ({
     label: cat,
-    href: `/?category=${encodeURIComponent(cat)}`,
-    key: cat.toLowerCase(),
+    href: `/categories/${cat}`,
+    key: cat,
   })),
 ];
 ---

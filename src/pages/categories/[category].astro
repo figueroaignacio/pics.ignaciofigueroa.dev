@@ -1,0 +1,41 @@
+---
+import { ClientRouter } from "astro:transitions";
+import Gallery from '../../components/Gallery.astro';
+import Header from '../../components/Header.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import { photos } from '../../data/photos';
+import '../../styles/global.css';
+
+export function getStaticPaths() {
+  const categories = [...new Set(photos.map(p => p.category.toLowerCase()))];
+  return categories.map(category => ({ params: { category } }));
+}
+
+const { category } = Astro.params;
+
+const filtered = photos.filter(p => p.category.toLowerCase() === category);
+const shuffled = filtered.sort(() => Math.random() - 0.5);
+
+const allCategories = [...new Set(photos.map(p => p.category.toLowerCase()))].sort();
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={`${category} photography by Ignacio Figueroa.`} />
+    <meta property="og:title" content={`${category} · pics.ignaciofigueroa.dev`} />
+    <meta property="og:description" content={`A curated ${category} photography collection.`} />
+    <meta property="og:type" content="website" />
+    <title>{category} · pics.ignaciofigueroa.dev</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <Header totalPhotos={filtered.length} />
+    <Gallery photos={shuffled} />
+    <Sidebar categories={allCategories} activeCategory={category} />
+  </body>
+</html>

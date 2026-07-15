@@ -6,15 +6,8 @@ import Sidebar from '../components/Sidebar.astro';
 import { photos } from '../data/photos';
 import '../styles/global.css';
 
-const activeCategory = Astro.url.searchParams.get('category') ?? 'all';
-
-const filtered = activeCategory === 'all'
-  ? [...photos]
-  : photos.filter(p => p.category.toLowerCase() === activeCategory.toLowerCase());
-
-const shuffled = filtered.sort(() => Math.random() - 0.5);
-
-const categories = [...new Set(photos.map(p => p.category))].sort();
+const shuffled = [...photos].sort(() => Math.random() - 0.5);
+const categories = [...new Set(photos.map(p => p.category.toLowerCase()))].sort();
 ---
 
 <html lang="en">
@@ -32,8 +25,8 @@ const categories = [...new Set(photos.map(p => p.category))].sort();
     <ClientRouter />
   </head>
   <body>
-    <Header totalPhotos={filtered.length} />
+    <Header totalPhotos={photos.length} />
     <Gallery photos={shuffled} />
-    <Sidebar categories={categories} activeCategory={activeCategory} />
+    <Sidebar categories={categories} activeCategory="all" />
   </body>
 </html>
