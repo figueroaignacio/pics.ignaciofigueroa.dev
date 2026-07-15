@@ -1,0 +1,70 @@
+---
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<span class="tooltip-root">
+  <slot />
+  <span class="tooltip" role="tooltip">{label}</span>
+</span>
+
+<style>
+  .tooltip-root {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tooltip {
+    position: absolute;
+    left: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 500;
+
+    font-family: inherit;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    color: rgba(255, 255, 255, 0.85);
+    white-space: nowrap;
+
+    background: rgba(18, 18, 18, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.28rem 0.6rem;
+    border-radius: 4px;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.12s ease;
+  }
+
+  .tooltip::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 4px solid transparent;
+    border-right-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .tooltip::after {
+    content: '';
+    position: absolute;
+    right: calc(100% - 1px);
+    top: 50%;
+    transform: translateY(-50%);
+    border: 4px solid transparent;
+    border-right-color: rgba(18, 18, 18, 0.98);
+  }
+
+  .tooltip-root:hover .tooltip {
+    opacity: 1;
+  }
+</style>

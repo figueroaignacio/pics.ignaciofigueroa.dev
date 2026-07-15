@@ -2,7 +2,7 @@
 import { ClientRouter } from "astro:transitions";
 import Gallery from '../components/Gallery.astro';
 import Header from '../components/Header.astro';
-import Dock from '../components/Dock.astro';
+import Sidebar from '../components/Sidebar.astro';
 import { photos } from '../data/photos';
 import '../styles/global.css';
 
@@ -34,6 +34,6 @@ const categories = [...new Set(photos.map(p => p.category))].sort();
   <body>
     <Header totalPhotos={filtered.length} />
     <Gallery photos={shuffled} />
-    <Dock categories={categories} activeCategory={activeCategory} />
+    <Sidebar categories={categories} activeCategory={activeCategory} />
   </body>
 </html>
