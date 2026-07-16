@@ -3,20 +3,26 @@ import { ClientRouter } from "astro:transitions";
 import Gallery from '../../components/Gallery.astro';
 import Header from '../../components/Header.astro';
 import Sidebar from '../../components/Sidebar.astro';
-import { photos } from '../../data/photos';
+import { fetchCategories, fetchPhotosByCategory } from '../../lib/api';
 import '../../styles/global.css';
 
-export function getStaticPaths() {
-  const categories = [...new Set(photos.map(p => p.category.toLowerCase()))];
-  return categories.map(category => ({ params: { category } }));
+export async function getStaticPaths() {
+  const categories = await fetchCategories();
+  return categories.map(cat => ({
+    params: { category: cat.slug },
+    props: { categoryName: cat.name },
+  }));
 }
 
 const { category } = Astro.params;
+const { categoryName } = Astro.props;
 
-const filtered = photos.filter(p => p.category.toLowerCase() === category);
-const shuffled = filtered.sort(() => Math.random() - 0.5);
+const [photos, allCategories] = await Promise.all([
+  fetchPhotosByCategory(category),
+  fetchCategories(),
+]);
 
-const allCategories = [...new Set(photos.map(p => p.category.toLowerCase()))].sort();
+const shuffled = [...photos].sort(() => Math.random() - 0.5);
 ---
 
 <html lang="en">
@@ -26,15 +32,15 @@ const allCategories = [...new Set(photos.map(p => p.category.toLowerCase()))].so
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={`${category} photography by Ignacio Figueroa.`} />
-    <meta property="og:title" content={`${category} · pics.ignaciofigueroa.dev`} />
-    <meta property="og:description" content={`A curated ${category} photography collection.`} />
+    <meta name="description" content={`${categoryName} photography by Ignacio Figueroa.`} />
+    <meta property="og:title" content={`${categoryName} · pics.ignaciofigueroa.dev`} />
+    <meta property="og:description" content={`A curated ${categoryName} photography collection.`} />
     <meta property="og:type" content="website" />
-    <title>{category} · pics.ignaciofigueroa.dev</title>
+    <title>{categoryName} · pics.ignaciofigueroa.dev</title>
     <ClientRouter />
   </head>
   <body>
-    <Header totalPhotos={filtered.length} />
+    <Header totalPhotos={photos.length} />
     <Gallery photos={shuffled} />
     <Sidebar categories={allCategories} activeCategory={category} />
   </body>

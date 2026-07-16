@@ -1,5 +1,5 @@
 ---
-import type { Photo } from '../types/photo';
+import type { ApiPhoto as Photo } from '../lib/api';
 import styles from './GalleryItem.module.css';
 
 interface Props {
@@ -24,7 +24,7 @@ const formattedDate = photo.taken_at
   style={`animation-delay: ${index * 65}ms`}
   aria-label={`View ${photo.title}`}
 >
-  <div class={styles.imageWrapper} style={`aspect-ratio: ${photo.aspectRatio}`}>
+  <div class={styles.imageWrapper}>
     <img
       src={photo.image_url}
       alt={photo.title}
@@ -46,7 +46,7 @@ const formattedDate = photo.taken_at
       <div class={styles.meta}>
         <p class={styles.title}>{photo.title}</p>
         <div class={styles.metaRow}>
-          <span class={styles.category}>{photo.category}</span>
+          <span class={styles.category}>{photo.category.name}</span>
           {photo.location && (
             <span class={styles.location}>
               <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">

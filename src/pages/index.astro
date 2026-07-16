@@ -3,11 +3,15 @@ import { ClientRouter } from "astro:transitions";
 import Gallery from '../components/Gallery.astro';
 import Header from '../components/Header.astro';
 import Sidebar from '../components/Sidebar.astro';
-import { photos } from '../data/photos';
+import { fetchAllPhotos, fetchCategories } from '../lib/api';
 import '../styles/global.css';
 
+const [photos, categories] = await Promise.all([
+  fetchAllPhotos(),
+  fetchCategories(),
+]);
+
 const shuffled = [...photos].sort(() => Math.random() - 0.5);
-const categories = [...new Set(photos.map(p => p.category.toLowerCase()))].sort();
 ---
 
 <html lang="en">

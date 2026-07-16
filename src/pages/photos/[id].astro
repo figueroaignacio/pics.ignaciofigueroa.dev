@@ -1,10 +1,11 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import styles from '../../components/PhotoDetail.module.css';
-import { photos } from '../../data/photos';
+import { fetchAllPhotos, fetchPhoto } from '../../lib/api';
 import '../../styles/global.css';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const photos = await fetchAllPhotos();
   return photos.map((photo) => ({
     params: { id: photo.id },
     props: { photo },
@@ -91,7 +92,9 @@ const formattedDate = photo.taken_at
           )}
 
           <div class={styles.tags}>
-            <span class={styles.categoryTag}>{photo.category}</span>
+            <a href={`/categories/${photo.category.slug}`} class={styles.categoryTag}>
+              {photo.category.name}
+            </a>
 
             {photo.location && (
               <span class={styles.locationTag}>

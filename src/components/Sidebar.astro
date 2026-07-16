@@ -10,9 +10,10 @@ Moon,
 Plane,
 } from '@lucide/astro';
 import Tooltip from './Tooltip.astro';
+import type { ApiCategory } from '../lib/api';
 
 interface Props {
-  categories: string[];
+  categories: ApiCategory[];
   activeCategory: string;
 }
 
@@ -31,9 +32,9 @@ const iconMap: Record<string, any> = {
 const items = [
   { label: 'all', href: '/', key: 'all' },
   ...categories.map(cat => ({
-    label: cat,
-    href: `/categories/${cat}`,
-    key: cat,
+    label: cat.name,
+    href: `/categories/${cat.slug}`,
+    key: cat.slug,
   })),
 ];
 ---
