@@ -1,15 +1,12 @@
 ---
-import { ClientRouter } from "astro:transitions";
+import { ClientRouter } from 'astro:transitions';
 import Gallery from '../components/Gallery.astro';
 import Header from '../components/Header.astro';
 import Sidebar from '../components/Sidebar.astro';
 import { fetchAllPhotos, fetchCategories } from '../lib/api';
 import '../styles/global.css';
 
-const [photos, categories] = await Promise.all([
-  fetchAllPhotos(),
-  fetchCategories(),
-]);
+const [photos, categories] = await Promise.all([fetchAllPhotos(), fetchCategories()]);
 
 const shuffled = [...photos].sort(() => Math.random() - 0.5);
 ---
@@ -21,7 +18,10 @@ const shuffled = [...photos].sort(() => Math.random() - 0.5);
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content="A curated masonry gallery of personal photography by Ignacio Figueroa." />
+    <meta
+      name="description"
+      content="A curated masonry gallery of personal photography by Ignacio Figueroa."
+    />
     <meta property="og:title" content="pics.ignaciofigueroa.dev" />
     <meta property="og:description" content="A curated masonry gallery of personal photography." />
     <meta property="og:type" content="website" />

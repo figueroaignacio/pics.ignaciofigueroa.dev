@@ -12,9 +12,7 @@ const { photos } = Astro.props;
 
 <main class={styles.gallery} id="gallery-root">
   <div class={styles.masonry}>
-    {photos.map((photo, index) => (
-      <GalleryItem photo={photo} index={index} />
-    ))}
+    {photos.map((photo, index) => <GalleryItem photo={photo} index={index} />)}
   </div>
 </main>
 

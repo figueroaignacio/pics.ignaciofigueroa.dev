@@ -1,5 +1,5 @@
 ---
-import { ClientRouter } from "astro:transitions";
+import { ClientRouter } from 'astro:transitions';
 import Gallery from '../../components/Gallery.astro';
 import Header from '../../components/Header.astro';
 import Sidebar from '../../components/Sidebar.astro';
@@ -8,7 +8,7 @@ import '../../styles/global.css';
 
 export async function getStaticPaths() {
   const categories = await fetchCategories();
-  return categories.map(cat => ({
+  return categories.map((cat) => ({
     params: { category: cat.slug },
     props: { categoryName: cat.name },
   }));

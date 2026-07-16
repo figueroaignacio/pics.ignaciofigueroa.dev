@@ -1,14 +1,5 @@
 ---
-import {
-Building2,
-Camera,
-Dices,
-FolderOpen,
-LayoutGrid,
-Leaf,
-Moon,
-Plane,
-} from '@lucide/astro';
+import { Building2, Camera, Dices, FolderOpen, LayoutGrid, Leaf, Moon, Plane } from '@lucide/astro';
 import Tooltip from './Tooltip.astro';
 import type { ApiCategory } from '../lib/api';
 
@@ -20,18 +11,18 @@ interface Props {
 const { categories, activeCategory } = Astro.props;
 
 const iconMap: Record<string, any> = {
-  all:      LayoutGrid,
-  city:     Building2,
+  all: LayoutGrid,
+  city: Building2,
   memories: Camera,
-  nature:   Leaf,
-  night:    Moon,
-  random:   Dices,
-  travel:   Plane,
+  nature: Leaf,
+  night: Moon,
+  random: Dices,
+  travel: Plane,
 };
 
 const items = [
   { label: 'all', href: '/', key: 'all' },
-  ...categories.map(cat => ({
+  ...categories.map((cat) => ({
     label: cat.name,
     href: `/categories/${cat.slug}`,
     key: cat.slug,
@@ -41,25 +32,28 @@ const items = [
 
 <nav id="sidebar" class="sidebar" aria-label="Filter by category">
   <ul class="sidebar-nav" role="list">
-    {items.map(({ label, href, key }) => {
-      const isActive = key === activeCategory.toLowerCase() || (key === 'all' && activeCategory === 'all');
-      const Icon = iconMap[key] ?? FolderOpen;
-      return (
-        <li>
-          <a
-            href={href}
-            class={`sidebar-item${isActive ? ' active' : ''}`}
-            aria-current={isActive ? 'page' : undefined}
-          >
-            <Tooltip label={label}>
-              <span class="sidebar-icon">
-                <Icon size={18} stroke-width={1.5} />
-              </span>
-            </Tooltip>
-          </a>
-        </li>
-      );
-    })}
+    {
+      items.map(({ label, href, key }) => {
+        const isActive =
+          key === activeCategory.toLowerCase() || (key === 'all' && activeCategory === 'all');
+        const Icon = iconMap[key] ?? FolderOpen;
+        return (
+          <li>
+            <a
+              href={href}
+              class={`sidebar-item${isActive ? ' active' : ''}`}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              <Tooltip label={label}>
+                <span class="sidebar-icon">
+                  <Icon size={18} stroke-width={1.5} />
+                </span>
+              </Tooltip>
+            </a>
+          </li>
+        );
+      })
+    }
   </ul>
 </nav>
 
