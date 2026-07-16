@@ -1,0 +1,12 @@
+# Build artifacts and caches
+.astro/
+dist/
+node_modules/
+
+# Lock files and configuration files we don't want formatted automatically
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Static public assets
+public/
