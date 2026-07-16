@@ -1,7 +1,22 @@
 ---
-import { Building2, Camera, Dices, FolderOpen, LayoutGrid, Leaf, Moon, Plane } from '@lucide/astro';
-import Tooltip from './Tooltip.astro';
+import {
+  Building2,
+  Calendar,
+  Camera,
+  Coffee,
+  Dices,
+  FolderOpen,
+  Handshake,
+  LayoutGrid,
+  Leaf,
+  Moon,
+  PawPrint,
+  Plane,
+  Users,
+  Utensils,
+} from '@lucide/astro';
 import type { ApiCategory } from '../lib/api';
+import Tooltip from './Tooltip.astro';
 
 interface Props {
   categories: ApiCategory[];
@@ -18,6 +33,12 @@ const iconMap: Record<string, any> = {
   night: Moon,
   random: Dices,
   travel: Plane,
+  events: Calendar,
+  family: Users,
+  food: Utensils,
+  friends: Handshake,
+  pets: PawPrint,
+  mate: Coffee,
 };
 
 const items = [
