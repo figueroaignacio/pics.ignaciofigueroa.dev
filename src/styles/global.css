@@ -1,6 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=EB+Garamond:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 :root {
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+  --font-serif: 'EB Garamond', Georgia, serif;
+  --font-lora: 'Lora', Georgia, serif;
+
   --background: #0a0a0a;
   --foreground: #fafafa;
   --card: #1a1a1a;
@@ -46,11 +52,7 @@ html {
 }
 
 body {
-  font-family:
-    'Inter',
-    system-ui,
-    -apple-system,
-    sans-serif;
+  font-family: var(--font-sans);
   background-color: var(--background);
   color: var(--foreground);
   min-height: 100vh;
@@ -58,6 +60,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-size: 40px 40px;
   padding-left: var(--sidebar-width);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+}
+
+p {
+  font-family: var(--font-sans);
 }
 
 img {
