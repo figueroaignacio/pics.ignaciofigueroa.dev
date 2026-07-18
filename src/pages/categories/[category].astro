@@ -1,10 +1,7 @@
 ---
-import { ClientRouter } from 'astro:transitions';
 import Gallery from '../../components/Gallery.astro';
-import Header from '../../components/Header.astro';
-import Sidebar from '../../components/Sidebar.astro';
+import GalleryLayout from '../../layouts/GalleryLayout.astro';
 import { fetchCategories, fetchPhotosByCategory } from '../../lib/api';
-import '../../styles/global.css';
 
 export async function getStaticPaths() {
   const categories = await fetchCategories();
@@ -25,23 +22,14 @@ const [photos, allCategories] = await Promise.all([
 const shuffled = [...photos].sort(() => Math.random() - 0.5);
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={`${categoryName} photography by Ignacio Figueroa.`} />
-    <meta property="og:title" content={`${categoryName} · pics.ignaciofigueroa.dev`} />
-    <meta property="og:description" content={`A curated ${categoryName} photography collection.`} />
-    <meta property="og:type" content="website" />
-    <title>{categoryName} · pics.ignaciofigueroa.dev</title>
-    <ClientRouter />
-  </head>
-  <body>
-    <Header totalPhotos={photos.length} />
-    <Gallery photos={shuffled} />
-    <Sidebar categories={allCategories} activeCategory={category} />
-  </body>
-</html>
+<GalleryLayout
+  title={`${categoryName} · pics.ignaciofigueroa.dev`}
+  description={`${categoryName} photography by Ignacio Figueroa.`}
+  ogTitle={`${categoryName} · pics.ignaciofigueroa.dev`}
+  ogDescription={`A curated ${categoryName} photography collection.`}
+  totalPhotos={photos.length}
+  categories={allCategories}
+  activeCategory={category}
+>
+  <Gallery photos={shuffled} />
+</GalleryLayout>

@@ -1,0 +1,32 @@
+---
+import Header from '../components/Header.astro';
+import Sidebar from '../components/Sidebar.astro';
+import BaseLayout from './BaseLayout.astro';
+import type { ApiCategory } from '../lib/api';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  totalPhotos: number;
+  categories: ApiCategory[];
+  activeCategory?: string;
+}
+
+const {
+  title,
+  description,
+  ogTitle,
+  ogDescription,
+  totalPhotos,
+  categories,
+  activeCategory = 'all',
+} = Astro.props;
+---
+
+<BaseLayout {title} {description} {ogTitle} {ogDescription}>
+  <Header {totalPhotos} />
+  <Sidebar {categories} {activeCategory} />
+  <slot />
+</BaseLayout>
