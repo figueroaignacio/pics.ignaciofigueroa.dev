@@ -3,6 +3,7 @@ import {
   Building2,
   Calendar,
   Camera,
+  CircleHelp,
   Coffee,
   Dices,
   FolderOpen,
@@ -21,9 +22,10 @@ import Tooltip from './Tooltip.astro';
 interface Props {
   categories: ApiCategory[];
   activeCategory: string;
+  currentPath?: string;
 }
 
-const { categories, activeCategory } = Astro.props;
+const { categories, activeCategory, currentPath = Astro.url.pathname } = Astro.props;
 
 const iconMap: Record<string, any> = {
   all: LayoutGrid,
@@ -76,6 +78,21 @@ const items = [
       })
     }
   </ul>
+
+  <!-- About link pinned to bottom -->
+  <div class="sidebar-bottom">
+    <a
+      href="/about"
+      class={`sidebar-item${currentPath === '/about' ? ' active' : ''}`}
+      aria-current={currentPath === '/about' ? 'page' : undefined}
+    >
+      <Tooltip label="about">
+        <span class="sidebar-icon">
+          <CircleHelp size={18} stroke-width={1.5} />
+        </span>
+      </Tooltip>
+    </a>
+  </div>
 </nav>
 
 <style>
@@ -97,6 +114,15 @@ const items = [
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-right: 1px dashed rgba(255, 255, 255, 0.06);
+  }
+
+  .sidebar-bottom {
+    position: absolute;
+    bottom: 1.25rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: visible;
   }
 
   .sidebar-nav {

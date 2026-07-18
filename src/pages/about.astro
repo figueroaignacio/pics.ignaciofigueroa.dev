@@ -1,0 +1,89 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import styles from '../components/About.module.css';
+import Header from '../components/Header.astro';
+import Sidebar from '../components/Sidebar.astro';
+import { fetchAllPhotos, fetchCategories } from '../lib/api';
+import '../styles/global.css';
+
+const [photos, categories] = await Promise.all([fetchAllPhotos(), fetchCategories()]);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta
+      name="description"
+      content="About Ignacio Figueroa — the story behind pics.ignaciofigueroa.dev, a personal gallery of cherished memories and beautiful moments."
+    />
+    <meta property="og:title" content="About — pics.ignaciofigueroa.dev" />
+    <meta
+      property="og:description"
+      content="A personal gallery of memories I want to hold onto and look back on with fondness."
+    />
+    <meta property="og:type" content="website" />
+    <title>About — pics.ignaciofigueroa.dev</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <Header totalPhotos={photos.length} />
+    <Sidebar categories={categories} activeCategory="" />
+
+    <main class={styles.main}>
+      <article class={styles.container}>
+        <div class={styles.avatarWrapper}>
+          <div class={styles.avatarGlow}></div>
+          <img
+            src="/avatar.png"
+            alt="Pixel art avatar of Ignacio Figueroa holding a Canon EOS R camera"
+            class={styles.avatar}
+            width="280"
+            height="340"
+          />
+        </div>
+
+        <div class={styles.content}>
+          <div class={styles.eyebrow}>
+            <span class={styles.eyebrowDot}></span>
+            the person behind the lens
+          </div>
+
+          <h1 class={styles.title}>
+            Why this <em>gallery</em><br />exists.
+          </h1>
+
+          <div class={styles.body}>
+            <p>
+              I'll be honest — I'm not the most photogenic person. But somewhere along the way I
+              realised that doesn't really matter. What matters is that these are <strong
+                >memories</strong
+              >. Moments I want to hold onto. Moments I hope to look back on someday with a quiet
+              kind of tenderness.
+            </p>
+
+            <p>
+              This gallery is my personal archive. No curation for anyone else, no aesthetic brand
+              to maintain — just the things I find beautiful, the places I've been, the light I
+              happened to catch.
+            </p>
+
+            <p>
+              The photos here aren't perfect. My camera gear isn't perfect. But I plan to keep
+              improving — and when I can get my hands on better equipment, I will. For now, this is
+              what I have, and I genuinely love it.
+            </p>
+
+            <blockquote class={styles.quote}>
+              "This is my personal gallery. My source of beautiful memories — and how much I
+              treasure them."
+            </blockquote>
+          </div>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>

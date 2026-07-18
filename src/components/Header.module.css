@@ -41,6 +41,25 @@
   letter-spacing: 0.01em;
 }
 
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.aboutLink {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color 0.15s ease;
+}
+
+.aboutLink:hover {
+  color: var(--foreground);
+}
+
 .stats {
   display: flex;
   gap: 1.25rem;
