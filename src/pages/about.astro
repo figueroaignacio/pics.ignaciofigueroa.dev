@@ -35,17 +35,6 @@ const [photos, categories] = await Promise.all([fetchAllPhotos(), fetchCategorie
 
     <main class={styles.main}>
       <article class={styles.container}>
-        <div class={styles.avatarWrapper}>
-          <div class={styles.avatarGlow}></div>
-          <img
-            src="/avatar.png"
-            alt="Pixel art avatar of Ignacio Figueroa holding a Canon EOS R camera"
-            class={styles.avatar}
-            width="280"
-            height="340"
-          />
-        </div>
-
         <div class={styles.content}>
           <div class={styles.eyebrow}>
             <span class={styles.eyebrowDot}></span>

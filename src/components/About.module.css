@@ -1,4 +1,3 @@
-/* ─── Layout ─────────────────────────────────────────────── */
 .main {
   min-height: calc(100vh - 80px);
   display: flex;
@@ -11,47 +10,11 @@
   display: flex;
   align-items: center;
   gap: 5rem;
-  max-width: 860px;
+  max-width: 460px;
   width: 100%;
   margin: 0 auto;
 }
 
-/* ─── Avatar ─────────────────────────────────────────────── */
-.avatarWrapper {
-  position: relative;
-  flex-shrink: 0;
-}
-
-.avatarGlow {
-  position: absolute;
-  inset: -24px;
-  background: radial-gradient(ellipse at center, rgba(96, 165, 250, 0.12) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  animation: pulse 4s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.04); }
-}
-
-.avatar {
-  width: 220px;
-  height: auto;
-  display: block;
-  border-radius: 12px;
-  image-rendering: pixelated;
-  filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.8));
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-/* ─── Content ────────────────────────────────────────────── */
 .content {
   display: flex;
   flex-direction: column;
@@ -79,8 +42,13 @@
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 .title {
@@ -92,12 +60,6 @@
   color: var(--foreground);
 }
 
-.title em {
-  font-style: italic;
-  color: var(--primary);
-}
-
-/* ─── Body text ──────────────────────────────────────────── */
 .body {
   display: flex;
   flex-direction: column;
@@ -129,7 +91,6 @@
   line-height: 1.7;
 }
 
-/* ─── Pills ──────────────────────────────────────────────── */
 .pills {
   display: flex;
   flex-wrap: wrap;
@@ -145,7 +106,9 @@
   border-radius: 999px;
   padding: 0.3rem 0.75rem;
   letter-spacing: 0.02em;
-  transition: border-color 0.15s ease, color 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .pill:hover {
@@ -153,7 +116,6 @@
   color: var(--foreground);
 }
 
-/* ─── Back link ──────────────────────────────────────────── */
 .backLink {
   display: inline-flex;
   align-items: center;
@@ -163,7 +125,9 @@
   color: var(--muted-foreground);
   text-decoration: none;
   letter-spacing: 0.03em;
-  transition: color 0.15s ease, gap 0.2s ease;
+  transition:
+    color 0.15s ease,
+    gap 0.2s ease;
   width: fit-content;
 }
 
@@ -172,21 +136,19 @@
   gap: 0.6rem;
 }
 
-/* ─── Responsive ─────────────────────────────────────────── */
 @media (max-width: 720px) {
   .container {
     flex-direction: column;
     align-items: center;
-    text-align: center;
     gap: 2.5rem;
   }
 
   .eyebrow {
-    justify-content: center;
+    justify-content: left;
   }
 
   .pills {
-    justify-content: center;
+    justify-content: left;
   }
 
   .backLink {
