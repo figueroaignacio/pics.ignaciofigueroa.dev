@@ -1,8 +1,3 @@
-/* ============================================================
-   Instagram-style Photo Detail layout
-   ============================================================ */
-
-/* Back button – floating, above everything */
 .backBtn {
   position: fixed;
   top: 1.25rem;
@@ -104,7 +99,18 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 0 0 2px var(--background), 0 0 0 3.5px rgba(248, 113, 113, 0.6);
+  box-shadow:
+    0 0 0 2px var(--background),
+    0 0 0 3.5px rgba(248, 113, 113, 0.6);
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
 }
 
 .avatar span {
@@ -206,6 +212,15 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.captionAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
 }
 
 .captionAvatar span {
