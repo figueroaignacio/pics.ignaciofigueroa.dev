@@ -25,6 +25,7 @@ const formattedDate = photo.taken_at
   aria-label={`View ${photo.title}`}
 >
   <div class={styles.imageWrapper}>
+    <div class={styles.skeleton}></div>
     <img
       src={photo.image_url}
       alt={photo.title}
@@ -71,3 +72,27 @@ const formattedDate = photo.taken_at
     display: block;
   }
 </style>
+
+<script>
+  function initGallerySkeletons() {
+    document.querySelectorAll('[class*="imageWrapper"]').forEach((wrapper) => {
+      const img = wrapper.querySelector('img') as HTMLImageElement | null;
+      const skeleton = wrapper.querySelector('[class*="skeleton"]') as HTMLElement | null;
+      if (!img || !skeleton) return;
+
+      const dismiss = () => {
+        skeleton.style.opacity = '0';
+        setTimeout(() => skeleton.remove(), 350);
+      };
+
+      if (img.complete && img.naturalWidth > 0) {
+        skeleton.remove();
+      } else {
+        img.addEventListener('load', dismiss, { once: true });
+        img.addEventListener('error', () => skeleton.remove(), { once: true });
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initGallerySkeletons);
+</script>

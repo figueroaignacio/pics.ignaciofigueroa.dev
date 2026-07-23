@@ -58,11 +58,13 @@ const formattedDate = photo.taken_at
     <div class={styles.page}>
       <!-- LEFT: Photo -->
       <div class={styles.imagePane}>
+        <div class={styles.imageSkeleton} id="detail-skeleton"></div>
         <img
           src={photo.image_url}
           alt={photo.title}
           class={styles.image}
           transition:name={`photo-img-${photo.id}`}
+          id="detail-img"
         />
       </div>
 
@@ -213,6 +215,22 @@ const formattedDate = photo.taken_at
     </div>
 
     <script>
+      // Skeleton dismiss for the main photo
+      const detailImg = document.getElementById('detail-img') as HTMLImageElement | null;
+      const detailSkeleton = document.getElementById('detail-skeleton') as HTMLElement | null;
+      if (detailImg && detailSkeleton) {
+        const dismissSkeleton = () => {
+          detailSkeleton.style.opacity = '0';
+          setTimeout(() => detailSkeleton.remove(), 400);
+        };
+        if (detailImg.complete && detailImg.naturalWidth > 0) {
+          detailSkeleton.remove();
+        } else {
+          detailImg.addEventListener('load', dismissSkeleton, { once: true });
+          detailImg.addEventListener('error', () => detailSkeleton.remove(), { once: true });
+        }
+      }
+
       // Like button toggle
       const likeBtn = document.getElementById('like-btn');
       likeBtn?.addEventListener('click', () => {
