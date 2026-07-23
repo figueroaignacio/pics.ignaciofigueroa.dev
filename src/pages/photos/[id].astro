@@ -34,9 +34,25 @@ const formattedDate = photo.taken_at
     <ClientRouter />
   </head>
   <body>
+    <!-- Back button floating -->
+    <a href="/" class={styles.backBtn} aria-label="Back to gallery">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M19 12H5M12 19l-7-7 7-7"></path>
+      </svg>
+    </a>
+
     <div class={styles.page}>
-      <!-- Full-screen image -->
-      <div class={styles.imageContainer}>
+      <!-- LEFT: Photo -->
+      <div class={styles.imagePane}>
         <img
           src={photo.image_url}
           alt={photo.title}
@@ -45,25 +61,17 @@ const formattedDate = photo.taken_at
         />
       </div>
 
-      <!-- Top bar: back + actions -->
-      <div class={styles.topBar}>
-        <a href="/" class={styles.backBtn}>
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M19 12H5M12 19l-7-7 7-7"></path>
-          </svg>
-          Gallery
-        </a>
-
-        <div class={styles.topRight}>
+      <!-- RIGHT: Instagram-style panel -->
+      <div class={styles.panel}>
+        <!-- Header: user info -->
+        <div class={styles.header}>
+          <div class={styles.avatar}>
+            <span>IF</span>
+          </div>
+          <div class={styles.headerMeta}>
+            <span class={styles.username}>ignaciofigueroa</span>
+            {photo.location && <span class={styles.headerLocation}>{photo.location}</span>}
+          </div>
           {
             photo.spotify_url && (
               <a
@@ -73,53 +81,179 @@ const formattedDate = photo.taken_at
                 class={styles.spotifyBtn}
                 aria-label="Listen on Spotify"
               >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
                 </svg>
-                Playing on Spotify
               </a>
             )
           }
+        </div>
 
+        <div class={styles.divider}></div>
+
+        <!-- Comments / caption area -->
+        <div class={styles.commentsArea}>
+          <!-- Caption as first "comment" -->
+          <div class={styles.captionRow}>
+            <div class={styles.captionAvatar}><span>IF</span></div>
+            <div class={styles.captionBody}>
+              <span class={styles.captionUser}>ignaciofigueroa</span>
+              <span class={styles.captionText}>
+                {photo.title}
+                {photo.description && ` — ${photo.description}`}
+              </span>
+              <div class={styles.captionMeta}>
+                <a href={`/categories/${photo.category.slug}`} class={styles.categoryTag}>
+                  #{photo.category.name.toLowerCase().replace(/\s+/g, '')}
+                </a>
+                {
+                  photo.location && (
+                    <span class={styles.captionMetaItem}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                      </svg>
+                      {photo.location}
+                    </span>
+                  )
+                }
+                {formattedDate && <span class={styles.captionTime}>{formattedDate}</span>}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class={styles.divider}></div>
+
+        <!-- Action bar -->
+        <div class={styles.actions}>
+          <div class={styles.actionsLeft}>
+            <button class={styles.actionBtn} id="like-btn" aria-label="Like">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                ></path>
+              </svg>
+            </button>
+            <button class={styles.actionBtn} aria-label="Comment">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </button>
+            <button class={styles.actionBtn} aria-label="Share">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </div>
+          <button class={`${styles.actionBtn} ${styles.saveBtn}`} id="save-btn" aria-label="Save">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Likes count + favorite badge -->
+        <div class={styles.likesRow}>
           {
             photo.favorite && (
-              <div class={styles.favIcon} aria-label="Favorite photo">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <span class={styles.favBadge}>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                 </svg>
-              </div>
+                Favorita
+              </span>
             )
           }
         </div>
-      </div>
 
-      <!-- Bottom metadata panel -->
-      <div class={styles.panel}>
-        <div class={styles.panelInner}>
-          <h1 class={styles.title}>{photo.title}</h1>
-
-          {photo.description && <p class={styles.description}>{photo.description}</p>}
-
-          <div class={styles.tags}>
-            <a href={`/categories/${photo.category.slug}`} class={styles.categoryTag}>
-              {photo.category.name}
-            </a>
-
-            {
-              photo.location && (
-                <span class={styles.locationTag}>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                  </svg>
-                  {photo.location}
-                </span>
-              )
-            }
-
-            {formattedDate && <span class={styles.dateTag}>{formattedDate}</span>}
-          </div>
+        <!-- Comment input -->
+        <div class={styles.inputRow}>
+          <button class={styles.emojiBtn} aria-label="Add emoji">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M8 13s1.5 2 4 2 4-2 4-2"></path>
+              <line x1="9" y1="9" x2="9.01" y2="9"></line>
+              <line x1="15" y1="9" x2="15.01" y2="9"></line>
+            </svg>
+          </button>
+          <input
+            type="text"
+            class={styles.commentInput}
+            placeholder="Add a comment…"
+            aria-label="Add a comment"
+          />
+          <button class={styles.postBtn} aria-label="Post comment">Post</button>
         </div>
       </div>
     </div>
+
+    <script>
+      // Like button toggle
+      const likeBtn = document.getElementById('like-btn');
+      likeBtn?.addEventListener('click', () => {
+        likeBtn.classList.toggle('liked');
+        const svg = likeBtn.querySelector('svg');
+        if (svg) {
+          const isLiked = likeBtn.classList.contains('liked');
+          svg.setAttribute('fill', isLiked ? '#f87171' : 'none');
+          svg.setAttribute('stroke', isLiked ? '#f87171' : 'currentColor');
+        }
+      });
+
+      // Save button toggle
+      const saveBtn = document.getElementById('save-btn');
+      saveBtn?.addEventListener('click', () => {
+        saveBtn.classList.toggle('saved');
+        const svg = saveBtn.querySelector('svg');
+        if (svg) {
+          const isSaved = saveBtn.classList.contains('saved');
+          svg.setAttribute('fill', isSaved ? 'currentColor' : 'none');
+        }
+      });
+    </script>
   </body>
 </html>
