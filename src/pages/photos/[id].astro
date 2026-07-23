@@ -1,18 +1,17 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import styles from '../../components/PhotoDetail.module.css';
-import { fetchAllPhotos } from '../../lib/api';
+import { fetchPhoto } from '../../lib/api';
 import '../../styles/global.css';
 
-export async function getStaticPaths() {
-  const photos = await fetchAllPhotos();
-  return photos.map((photo) => ({
-    params: { id: photo.id },
-    props: { photo },
-  }));
-}
+const { id } = Astro.params;
 
-const { photo } = Astro.props;
+let photo;
+try {
+  photo = await fetchPhoto(id!);
+} catch {
+  return Astro.redirect('/404');
+}
 
 const formattedDate = photo.taken_at
   ? new Date(photo.taken_at).toLocaleDateString('en-US', {
