@@ -39,7 +39,6 @@ const formattedDate = photo.taken_at
     </style>
   </head>
   <body>
-    <!-- Back button floating -->
     <a href="/" class={styles.backBtn} aria-label="Back to gallery">
       <svg
         width="16"
@@ -56,7 +55,6 @@ const formattedDate = photo.taken_at
     </a>
 
     <div class={styles.page}>
-      <!-- LEFT: Photo -->
       <div class={styles.imagePane}>
         <div class={styles.imageSkeleton} id="detail-skeleton"></div>
         <img
@@ -68,9 +66,7 @@ const formattedDate = photo.taken_at
         />
       </div>
 
-      <!-- RIGHT: Instagram-style panel -->
       <div class={styles.panel}>
-        <!-- Header: user info -->
         <div class={styles.header}>
           <div class={styles.avatar}>
             <img src="/nacho-avatar.png" alt="ignaciofigueroa" />
@@ -98,9 +94,7 @@ const formattedDate = photo.taken_at
 
         <div class={styles.divider}></div>
 
-        <!-- Comments / caption area -->
         <div class={styles.commentsArea}>
-          <!-- Caption as first "comment" -->
           <div class={styles.captionRow}>
             <div class={styles.captionAvatar}>
               <img src="/nacho-avatar.png" alt="ignaciofigueroa" />
@@ -133,7 +127,6 @@ const formattedDate = photo.taken_at
 
         <div class={styles.divider}></div>
 
-        <!-- Action bar -->
         <div class={styles.actions}>
           <div class={styles.actionsLeft}>
             <button class={styles.actionBtn} id="like-btn" aria-label="Like">
@@ -198,7 +191,6 @@ const formattedDate = photo.taken_at
           </button>
         </div>
 
-        <!-- Likes count + favorite badge -->
         <div class={styles.likesRow}>
           {
             photo.favorite && (
