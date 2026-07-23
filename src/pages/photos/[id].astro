@@ -215,44 +215,54 @@ const formattedDate = photo.taken_at
     </div>
 
     <script>
-      // Skeleton dismiss for the main photo
-      const detailImg = document.getElementById('detail-img') as HTMLImageElement | null;
-      const detailSkeleton = document.getElementById('detail-skeleton') as HTMLElement | null;
-      if (detailImg && detailSkeleton) {
-        const dismissSkeleton = () => {
-          detailSkeleton.style.opacity = '0';
-          setTimeout(() => detailSkeleton.remove(), 400);
-        };
-        if (detailImg.complete && detailImg.naturalWidth > 0) {
-          detailSkeleton.remove();
-        } else {
-          detailImg.addEventListener('load', dismissSkeleton, { once: true });
-          detailImg.addEventListener('error', () => detailSkeleton.remove(), { once: true });
+      function initDetailPage() {
+        // Skeleton dismiss for the main photo
+        const detailImg = document.getElementById('detail-img') as HTMLImageElement | null;
+        const detailSkeleton = document.getElementById('detail-skeleton') as HTMLElement | null;
+        if (detailImg && detailSkeleton) {
+          const dismissSkeleton = () => {
+            detailSkeleton.style.opacity = '0';
+            setTimeout(() => {
+              if (detailSkeleton.parentNode) detailSkeleton.remove();
+            }, 400);
+          };
+          if (detailImg.complete && detailImg.naturalWidth > 0) {
+            // Image already cached — remove skeleton immediately
+            detailSkeleton.remove();
+          } else {
+            detailImg.addEventListener('load', dismissSkeleton, { once: true });
+            detailImg.addEventListener('error', () => {
+              if (detailSkeleton.parentNode) detailSkeleton.remove();
+            }, { once: true });
+          }
         }
+
+        // Like button toggle
+        const likeBtn = document.getElementById('like-btn');
+        likeBtn?.addEventListener('click', () => {
+          likeBtn.classList.toggle('liked');
+          const svg = likeBtn.querySelector('svg');
+          if (svg) {
+            const isLiked = likeBtn.classList.contains('liked');
+            svg.setAttribute('fill', isLiked ? '#f87171' : 'none');
+            svg.setAttribute('stroke', isLiked ? '#f87171' : 'currentColor');
+          }
+        });
+
+        // Save button toggle
+        const saveBtn = document.getElementById('save-btn');
+        saveBtn?.addEventListener('click', () => {
+          saveBtn.classList.toggle('saved');
+          const svg = saveBtn.querySelector('svg');
+          if (svg) {
+            const isSaved = saveBtn.classList.contains('saved');
+            svg.setAttribute('fill', isSaved ? 'currentColor' : 'none');
+          }
+        });
       }
 
-      // Like button toggle
-      const likeBtn = document.getElementById('like-btn');
-      likeBtn?.addEventListener('click', () => {
-        likeBtn.classList.toggle('liked');
-        const svg = likeBtn.querySelector('svg');
-        if (svg) {
-          const isLiked = likeBtn.classList.contains('liked');
-          svg.setAttribute('fill', isLiked ? '#f87171' : 'none');
-          svg.setAttribute('stroke', isLiked ? '#f87171' : 'currentColor');
-        }
-      });
-
-      // Save button toggle
-      const saveBtn = document.getElementById('save-btn');
-      saveBtn?.addEventListener('click', () => {
-        saveBtn.classList.toggle('saved');
-        const svg = saveBtn.querySelector('svg');
-        if (svg) {
-          const isSaved = saveBtn.classList.contains('saved');
-          svg.setAttribute('fill', isSaved ? 'currentColor' : 'none');
-        }
-      });
+      // Run on initial load and on every View Transition navigation
+      document.addEventListener('astro:page-load', initDetailPage);
     </script>
   </body>
 </html>
