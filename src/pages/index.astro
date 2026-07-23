@@ -5,6 +5,13 @@ import { fetchAllPhotos, fetchCategories } from '../lib/api';
 
 const [photos, categories] = await Promise.all([fetchAllPhotos(), fetchCategories()]);
 const shuffled = [...photos].sort(() => Math.random() - 0.5);
+
+const photosPerCategory = photos.reduce<Record<string, number>>((acc, photo) => {
+  const slug = photo.category.slug;
+  acc[slug] = (acc[slug] ?? 0) + 1;
+  return acc;
+}, {});
+const filteredCategories = categories.filter((cat) => (photosPerCategory[cat.slug] ?? 0) > 1);
 ---
 
 <GalleryLayout
@@ -13,7 +20,7 @@ const shuffled = [...photos].sort(() => Math.random() - 0.5);
   ogTitle="pics.ignaciofigueroa.dev"
   ogDescription="A curated masonry gallery of personal photography."
   totalPhotos={photos.length}
-  {categories}
+  categories={filteredCategories}
   activeCategory="all"
 >
   <Gallery photos={shuffled} />

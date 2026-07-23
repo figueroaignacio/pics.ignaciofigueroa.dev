@@ -1,7 +1,7 @@
 ---
 import Gallery from '../../components/Gallery.astro';
 import GalleryLayout from '../../layouts/GalleryLayout.astro';
-import { fetchCategories, fetchPhotosByCategory } from '../../lib/api';
+import { fetchAllPhotos, fetchCategories, fetchPhotosByCategory } from '../../lib/api';
 
 export async function getStaticPaths() {
   const categories = await fetchCategories();
@@ -14,12 +14,20 @@ export async function getStaticPaths() {
 const { category } = Astro.params;
 const { categoryName } = Astro.props;
 
-const [photos, allCategories] = await Promise.all([
+const [photos, allCategories, allPhotos] = await Promise.all([
   fetchPhotosByCategory(category),
   fetchCategories(),
+  fetchAllPhotos(),
 ]);
 
 const shuffled = [...photos].sort(() => Math.random() - 0.5);
+
+const photosPerCategory = allPhotos.reduce<Record<string, number>>((acc, photo) => {
+  const slug = photo.category.slug;
+  acc[slug] = (acc[slug] ?? 0) + 1;
+  return acc;
+}, {});
+const filteredCategories = allCategories.filter((cat) => (photosPerCategory[cat.slug] ?? 0) > 1);
 ---
 
 <GalleryLayout
@@ -28,7 +36,7 @@ const shuffled = [...photos].sort(() => Math.random() - 0.5);
   ogTitle={`${categoryName} · pics.ignaciofigueroa.dev`}
   ogDescription={`A curated ${categoryName} photography collection.`}
   totalPhotos={photos.length}
-  categories={allCategories}
+  categories={filteredCategories}
   activeCategory={category}
 >
   <Gallery photos={shuffled} />
