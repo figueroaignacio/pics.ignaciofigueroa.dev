@@ -32,6 +32,11 @@ const formattedDate = photo.taken_at
     <meta name="description" content={photo.description ?? photo.title} />
     <title>{photo.title} — pics.ignaciofigueroa.dev</title>
     <ClientRouter />
+    <style>
+      body {
+        padding-left: 0 !important;
+      }
+    </style>
   </head>
   <body>
     <!-- Back button floating -->

@@ -6,7 +6,7 @@
 .backBtn {
   position: fixed;
   top: 1.25rem;
-  left: calc(var(--sidebar-width) + 1.25rem);
+  left: 1.25rem;
   z-index: 100;
   display: inline-flex;
   align-items: center;
